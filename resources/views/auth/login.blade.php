@@ -40,7 +40,7 @@
                         <div class="button">
                           <div class="row mb-0">
                             <div class="col-md-8 mx-auto">
-                              <button type="submit" class="btn btn-primary">
+                              <button type="submit" class="btn btn-warning">
                               {{ __('ログイン') }}
                               </button>
 

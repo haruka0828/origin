@@ -58,7 +58,7 @@
 
                      <div class="row mb-0 button">
                          <div class="col-md-8 mx-auto">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-warning">
                             {{ __('新規登録') }}
                             </button>
         
