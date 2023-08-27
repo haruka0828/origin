@@ -1,0 +1,66 @@
+.even-row {
+    background-color: #D4D7DC; /* 灰色の背景色 */
+}
+
+.odd-row {
+    background-color: #ffffff; /* 白色の背景色 */
+}
+
+/* フォーム全体のスタイル */
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+/* 商品名部分一致検索フォームのスタイル */
+.equal-width-form.product-search {
+    width: 320px;/* 幅を短く調整 */
+    margin-right: 40px; /* 適切な余白を指定 */
+}
+
+/* メーカー選択のスタイル */
+.equal-width-form.company-select {
+    width: 320px; /* 幅を短く調整 */
+    margin-right: 40px; /* 適切な余白を指定 */
+}
+
+/* 検索ボタンのスタイル */
+.search-button {
+    margin-right: 40px; /* 適切な余白を指定 */
+}
+.box1 {
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    border: solid 3px #000000;
+}
+.box1 p {
+    margin: 0; 
+    padding: 0;
+}
+/* 列ごとの罫線を無効化 */
+.table-bordered tbody tr{
+    border: none;
+}
+/* 登録用フォーム */
+.form-inline-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.form-inline-row label {
+    flex: 0 0 200px; /* 100px 幅 */
+    max-width: 200px;
+    font-weight: bold;
+}
+
+.form-inline-row .col-sm-8 {
+    flex: 0 0 calc(100% - 200px); /* 100px を除いた残りの幅 */
+    max-width: calc(100% - 200px);
+}
+
+.form-inline-row .col-sm-4 {
+    flex: 0 0 100px; /* 100px 幅 */
+    max-width: 100px;
+}

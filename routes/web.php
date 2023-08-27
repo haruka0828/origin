@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+// 商品一覧ページの表示と検索機能
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
-
+// 商品登録ページの表示
 Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
+// 商品登録処理
+Route::post('/products', [App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
+// 商品詳細
+Route::get('/show/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+// 商品削除
+Route::delete('/products/{product}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
