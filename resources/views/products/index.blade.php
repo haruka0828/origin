@@ -2,14 +2,12 @@
 
 @section('content')
            
-           
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
            
             <h1>{{ __('商品一覧画面') }}</h1>
-                
-                 
+                         
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -17,23 +15,20 @@
                     @endif
                      
                     <form action="{{ route('products.index') }}" method="get" class="search-form">
-                    <!-- 商品名部分一致検索フォーム -->
-                    <input type="text" class="form-control equal-width-form product-search" name="product_search" placeholder="検索キーワード">
+                      <!-- 商品名部分一致検索フォーム -->
+                      <input type="text" class="form-control equal-width-form product-search" 
+                    name="product_search" placeholder="検索キーワード">
     
-                    <!-- メーカー選択 -->
-                    <select name="company_name" class="form-control equal-width-form company-select">
-                    @foreach ($companies as $id => $companyName)
-                    <option value="{{ $id }}">{{ $companyName }}</option>
-                    @endforeach
-                    </select>
+                      <!-- メーカー選択 -->
+                      <select name="company_name" class="form-control equal-width-form company-select">
+                        @foreach ($companies as $id => $companyName)
+                        <option value="{{ $id }}">{{ $companyName }}</option>
+                        @endforeach
+                      </select>
 
-                    <!-- 検索ボタン -->
-                    <button type="submit" class="btn btn-primary search-button">検索</button>
+                      <!-- 検索ボタン -->
+                      <button type="submit" class="btn btn-primary search-button">検索</button>
                     </form>
-
-            
-
-                
 
                     <table class="table table-borderless table-striped">
                      <thead>
@@ -49,7 +44,6 @@
                       </tr>
                      </thead>
                      <tbody>
-                    
 
                       @php
                            $rowIndex = 0;
@@ -60,7 +54,8 @@
                 
                       <td>{{ $product->id }}</td>
                       <td>
-                          <img src="{{ asset('storage/' . $product->img_pass) }}" alt="商品画像" style="max-width: 100px;">
+                          <img src="{{ asset('storage/' . $product->img_pass) }}" 
+                          alt="商品画像" style="max-width: 100px;">
                       </td>
                       <td>{{ $product->product_name }}</td>
                       <td>{{ '¥' . number_format($product->price) }}</td>
@@ -69,27 +64,18 @@
                       <td><a href="{{ route('products.show', $product->id) }}" class="btn btn-info">詳細</a></td>
                       <td>
                       <!-- 削除ボタン -->
-                        <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="post">
+                        <form id="delete-form-{{ $product->id }}" 
+                        action="{{ route('products.destroy', $product->id) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">削除</button>
+                        <button type="button" class="btn btn-danger" 
+                        onclick="confirmDelete({{ $product->id }})">削除</button>
                         </form>
                         </td>
                         </tr>
-
-
                       @endforeach
                       </tbody>
-                    
-                    </table>
-                
-            
-                 
-
-                    
-
-                    
-            
+                    </table>         
         </div>
     </div>
 </div>

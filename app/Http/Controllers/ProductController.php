@@ -41,15 +41,11 @@ class ProductController extends Controller
     $companies = Company::pluck('company_name', 'id'); // 企業名一覧を取得（セレクトボックス用）
     return view('products.create', compact('companies')); // 登録画面ビューを表示
     }
-    
-    
-    // フォームデータをダンプして確認
-    //dd($request->all());
-   
-        
 
     public function store(Request $request) 
     {
+    // フォームデータをダンプして確認
+    //dd($request->all());
     // カンパニーIDの取得
     $companyName = $request->input('company_name');
     $company = Company::find($companyName);
@@ -73,11 +69,9 @@ class ProductController extends Controller
     
     // 商品情報をデータベースに登録
     Product::create($productInfo);
-
     return redirect()->route('products.index');
     }
    
-    
     public function show($id)
     {
     $product = Product::findOrFail($id); // 指定された商品データを取得

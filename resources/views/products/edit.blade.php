@@ -13,7 +13,8 @@
                 <div class="form-inline-row row">
                     <label for="product_id">商品情報ID</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="product_id" name="product_id" value="{{ $product->id }}" readonly>
+                    <input type="text" class="form-control" id="product_id" 
+                    name="product_id" value="{{ $product->id }}" readonly>
                   </div>
                 </div>
 
@@ -21,7 +22,8 @@
                 <div class="form-inline-row row">
                     <label for="product_name">商品名</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="product_name" name="product_name" value="{{ $product->product_name }}">
+                    <input type="text" class="form-control" id="product_name" 
+                    name="product_name" value="{{ $product->product_name }}">
                   </div>
                 </div>
 
@@ -31,14 +33,14 @@
                     <div class="col-sm-8">
                       <select class="form-control" id="company_id" name="company_id">
                        @foreach ($companies as $company)
-                         <option value="{{ $company->id }}" {{ $product->company_id == $company->id ? 'selected' : '' }}>
+                         <option value="{{ $company->id }}" 
+                         {{ $product->company_id == $company->id ? 'selected' : '' }}>
                           {{ $company->company_name }}
                          </option>
                        @endforeach
                       </select>
                     </div>
                 </div>
-
 
                 <!-- 価格 -->
                 <div class="form-inline-row row">
