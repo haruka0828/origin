@@ -22,13 +22,14 @@ class ProductController extends Controller
     if ($request->has('company_name')) {
         $query->where('company_id', $request->input('company_name'));
     }
+    
+    // ページネーションを使用して商品データを取得（1ページあたり10件）
+    $products = $query->paginate(10);
 
-    $products = $query->get();
     $companies = Company::pluck('company_name', 'id'); // 企業名一覧を取得
-
     return view('products.index', compact('products', 'companies'));
     }
-
+    
     public function destroy($id)
     {
     $product = Product::findOrFail($id);
