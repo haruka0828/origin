@@ -83,11 +83,26 @@ class ProductController extends Controller
     $product = Product::findOrFail($id); // 指定された商品データを取得
     return view('products.show', compact('product')); // 詳細画面ビューを表示
     }
-    //edidの定義
-    //public function edit($id)
-    //{
-    //$product = Product::findOrFail($id); // 指定された商品データを取得
-    //$companies = Company::all(); // すべての企業データを取得
-    //return view('products.edit', compact('product', 'companies')); // 編集画面ビューを表示
-    //}
+    
+    public function edit($id)
+    {
+    $product = Product::findOrFail($id); // 指定された商品データを取得
+    $companies = Company::all(); // すべての企業情報を取得
+    return view('products.edit', compact('product', 'companies')); // 編集画面ビューを表示
+    }
+
+    public function update(Request $request, $id)
+    {
+    $product = Product::findOrFail($id);
+    
+     // フォームデータを更新
+     $product->product_name = $request->input('product_name');
+     $product->price = $request->input('price');
+     $product->stock = $request->input('stock');
+     $product->company_id = $request->input('company_id'); 
+     $product->comment = $request->input('comment');
+    
+    $product->save();
+    return redirect()->route('products.index',$product->id);        
+    }
 }

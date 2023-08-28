@@ -35,14 +35,14 @@
 
                 <div class="form-inline-row row">
                       <label for="price" class="col-sm-2 col-form-label">価格</label>
-                   <div class="col-sm-4">
+                   <div class="col-sm-8">
                       <input type="number" class="form-control" id="price" name="price" required>
                    </div>
                 </div>
 
                 <div class="form-inline-row row">
                       <label for="stock" class="col-sm-2 col-form-label">在庫数</label>
-                   <div class="col-sm-4">
+                   <div class="col-sm-8">
                       <input type="number" class="form-control" id="stock" name="stock" required>
                    </div>
                 </div>
@@ -62,10 +62,9 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">新規登録</button>
+                <!-- 商品一覧画面へのボタン -->
+                <a href="{{ route('products.index') }}" class="btn btn-secondary">戻る</a>
             </form>
-
-            <!-- 商品一覧画面へのボタン -->
-            <a href="{{ route('products.index') }}" class="btn btn-secondary mt-3">戻る</a>
         </div>
     </div>
 </div>

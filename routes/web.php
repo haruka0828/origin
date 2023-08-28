@@ -31,3 +31,8 @@ Route::post('/products', [App\Http\Controllers\ProductController::class, 'store'
 Route::get('/show/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 // 商品削除
 Route::delete('/products/{product}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+// 商品編集
+Route::get('/products/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
+// 更新処理
+Route::put('/products/{product}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+
