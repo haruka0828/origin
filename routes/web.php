@@ -35,4 +35,5 @@ Route::delete('/products/{product}', [App\Http\Controllers\ProductController::cl
 Route::get('/products/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
 // 更新処理
 Route::put('/products/{product}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
-
+// 非同期処理
+//Route::get('/products/async', 'ProductController@asyncIndex')->name('products.asyncIndex');

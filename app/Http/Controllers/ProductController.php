@@ -3,38 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product; // Product モデルを使用するために追加
+use App\Models\Product; // Product モデルを追加
 use App\Models\Company; // Company モデルを追加
+use Illuminate\Support\Facades\DB; //トランザクション使用
 
 class ProductController extends Controller
 {
     
     public function index(Request $request)
     {
-    $query = Product::with('company');
-
-    // 商品名の部分一致検索
-    if ($request->has('product_search')) {
-        $query->where('product_name', 'like', '%' . $request->input('product_search') . '%');
-    }
-
-    // メーカー選択による絞り込み
-    if ($request->has('company_name')) {
-        $query->where('company_id', $request->input('company_name'));
-    }
-    
-    // ページネーションを使用して商品データを取得（1ページあたり10件）
-    $products = $query->paginate(10);
-
-    $companies = Company::pluck('company_name', 'id'); // 企業名一覧を取得
-    return view('products.index', compact('products', 'companies'));
+        $products = Product::getFilteredProducts($request);// モデルメソッドを呼び出して商品情報を取得
+        $companies = Company::pluck('company_name', 'id');// 企業名一覧を取得
+        return view('products.index', compact('products', 'companies'));
     }
     
     public function destroy($id)
     {
-    $product = Product::findOrFail($id);
-    $product->delete();
-    return redirect()->route('products.index')->with('status', '商品を削除しました');
+    DB::beginTransaction(); // トランザクションの開始
+    try {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        DB::commit(); // トランザクションのコミット
+        return redirect()->route('products.index')->with('status', '商品を削除しました');
+    } catch (\Exception $e) {
+        DB::rollback(); // トランザクションのロールバック
+        return redirect()->route('products.index')->with('error', '商品の削除に失敗しました');
+    }
     }
 
     public function create()
@@ -47,30 +41,18 @@ class ProductController extends Controller
     {
     // フォームデータをダンプして確認
     //dd($request->all());
-    // カンパニーIDの取得
-    $companyName = $request->input('company_name');
-    $company = Company::find($companyName);
-
-    // 商品情報の取得
-    $productInfo = [
-        'product_name' => $request->input('product_name'),
-        'price' => $request->input('price'),
-        'stock' => $request->input('stock'),
-        'comment' => $request->input('comment'),
-        'img_pass'=> $request->input('img_pass'),
-    ];
-
-    // カンパニーIDを関連付け
-    $productInfo['company_id'] = $company->id;
-
-    if ($request->hasFile('img_pass')) {
-        $imagePath = $request->file('img_pass')->store('images', 'public');
-        $productInfo['img_pass'] = $imagePath;
-    }
     
-    // 商品情報をデータベースに登録
-    Product::create($productInfo);
-    return redirect()->route('products.index');
+    DB::beginTransaction();// トランザクションの開始
+    try {
+        $productModel = new Product(); // モデルのインスタンスを作成
+        $productModel->createProduct($request); // モデルのメソッドを呼び出して処理を実行
+        DB::commit();// トランザクションのコミット
+
+        return redirect()->route('products.index');// リダイレクトなどの後続処理を行う
+    } catch (\Exception $e) {
+        DB::rollback();// トランザクションのロールバック
+        throw $e; // エラーを再スローして通知
+    }
     }
    
     public function show($id)
@@ -88,16 +70,17 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-    $product = Product::findOrFail($id);
-    
-     // フォームデータを更新
-     $product->product_name = $request->input('product_name');
-     $product->price = $request->input('price');
-     $product->stock = $request->input('stock');
-     $product->company_id = $request->input('company_id'); 
-     $product->comment = $request->input('comment');
-    
-    $product->save();
-    return redirect()->route('products.index',$product->id);        
+        DB::beginTransaction(); // トランザクションの開始
+        try {
+            $productModel = new Product(); // モデルのインスタンスを取得
+            $productModel->updateProduct($request,$id); // モデルのメソッドを呼び出して更新処理を実行
+
+            DB::commit(); // トランザクションのコミット
+
+            return redirect()->route('products.index',$id); // リダイレクトなどの後続処理を行う
+        } catch (\Exception $e) {
+            DB::rollback(); // トランザクションのロールバック
+            throw $e; // エラーを再スローして通知
+        }
     }
 }
