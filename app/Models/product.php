@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage; // 追加
 
 class Product extends Model
 {
@@ -50,7 +51,7 @@ class Product extends Model
             'price' => $request->input('price'),
             'stock' => $request->input('stock'),
             'comment' => $request->input('comment'),
-            'img_pass'=> $request->input('img_pass'),
+            //'img_pass'=> $request->input('img_pass'),
         ];
         // カンパニーIDを関連付け
         $productInfo['company_id'] = $company->id;
@@ -72,21 +73,21 @@ class Product extends Model
             'price' => $request->input('price'),
             'stock' => $request->input('stock'),
             'comment' => $request->input('comment'),
-            'img_pass'=> $request->input('img_pass'),
+            //'img_pass'=> $request->input('img_pass'),
         ];
         // カンパニーIDを関連付け
         $productInfo['company_id'] = $companyId;
         // 画像ファイルの処理
-        if ($request->hasFile('img_pass') && $request->file('img_pass')->isValid()) {
-        // 新しい画像をアップロード
-        $imagePath = $request->file('img_pass')->store('images', 'public');
-        $productInfo['img_pass'] = $imagePath;
+        if ($request->hasFile('img_pass')) {
+            $imagePath = $request->file('img_pass')->store('images', 'public');
+            $productInfo['img_pass'] = $imagePath;
+        }
         // 既存の画像を削除
         $existingProduct = Product::findOrFail($id);
         if ($existingProduct->img_pass) {
         Storage::disk('public')->delete($existingProduct->img_pass);
         }
-        } else {
+        else {
         // 新しい画像がアップロードされない場合、既存の画像パスを代入
         $existingProduct = Product::findOrFail($id);
         $productInfo['img_pass'] = $existingProduct->img_pass;

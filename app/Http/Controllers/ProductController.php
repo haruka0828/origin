@@ -6,17 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\Product; // Product モデルを追加
 use App\Models\Company; // Company モデルを追加
 use Illuminate\Support\Facades\DB; //トランザクション使用
+//use Illuminate\Support\Facades\Storage; // 追加
 
 class ProductController extends Controller
 {
-    
     public function index(Request $request)
     {
-        $products = Product::getFilteredProducts($request);// モデルメソッドを呼び出して商品情報を取得
-        $companies = Company::pluck('company_name', 'id');// 企業名一覧を取得
-        return view('products.index', compact('products', 'companies'));
+    // 通常のHTTPリクエストの場合にも $products 変数を設定
+    $products = Product::getFilteredProducts($request);
+    if ($request->ajax()) {
+        return response()->json(['products' => $products]);
     }
-    
+    // 通常のHTTPリクエストの場合、通常通りビューを返す
+    $companies = Company::pluck('company_name', 'id');
+    return view('products.index', compact('products', 'companies'));
+    }
+
+    public function search(Request $request)
+    {
+    if ($request->ajax()) {
+        $products = Product::getFilteredProducts($request);
+        return response()->json(['products' => $products]);
+    }
+    }
+
     public function destroy($id)
     {
     DB::beginTransaction(); // トランザクションの開始

@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1>{{ __('商品編集画面') }}</h1>
-            <form method="POST" action="{{ route('products.update', $product->id) }}">
-                @csrf
-                @method('PUT')
+            <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
 
+            @csrf
+                @method('PUT')
                 <!-- 商品情報ID -->
                 <div class="form-inline-row row">
                     <label for="product_id">商品情報ID</label>

@@ -16,7 +16,7 @@
             <div class="form-inline-row row">
                 <label for="img_pass" class="col-sm-2 col-form-label font-weight-bold">商品画像:</label>
                 <div class="col-sm-8">
-                    <img src="{{ asset('storage/' . $product->img_pass) }}" alt="商品画像" style="max-width: 300px;">
+                    <img src="{{ asset('storage/' . $product->img_pass) }}" alt="商品画像" style="max-width: 200px;">
                 </div>
             </div>
 

@@ -55,7 +55,7 @@
                       <td>{{ $product->id }}</td>
                       <td>
                           <img src="{{ asset('storage/' . $product->img_pass) }}" 
-                          alt="商品画像" style="max-width: 100px;">
+                          alt="商品画像" style="max-width: 200px;">
                       </td>
                       <td>{{ $product->product_name }}</td>
                       <td>{{ '¥' . number_format($product->price) }}</td>
