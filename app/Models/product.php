@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage; // 追加
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -25,6 +25,14 @@ class Product extends Model
     public function sales()
     {
         return $this->hasMany(Sale::class);
+    }
+    public function scopePriceRange($query, $minPrice, $maxPrice)//価格検索
+    {
+    return $query->whereBetween('price', [$minPrice, $maxPrice]);
+    }
+    public function scopeStockRange($query, $minStock, $maxStock)//在庫検索
+    {
+    return $query->whereBetween('stock', [$minStock, $maxStock]);
     }
     //index
     public static function getFilteredProducts($request)

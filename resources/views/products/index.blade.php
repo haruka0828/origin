@@ -17,7 +17,7 @@
                     <form action="{{ route('products.index') }}" method="get" class="search-form">
                       <!-- 商品名部分一致検索フォーム -->
                       <input type="text" class="form-control equal-width-form product-search" 
-                    name="product_search" placeholder="検索キーワード">
+                      name="product_search" placeholder="検索キーワード">
     
                       <!-- メーカー選択 -->
                       <select name="company_name" class="form-control equal-width-form company-select">
@@ -25,8 +25,15 @@
                         <option value="{{ $id }}">{{ $companyName }}</option>
                         @endforeach
                       </select>
-
                       <!-- 検索ボタン -->
+                      <button type="submit" class="btn btn-primary search-button">検索</button>
+                    </form>
+
+                    <form id="search-form" class="search-form">
+                      <input type="number" name="min_price" id="min_price" placeholder="最低価格">
+                      <input type="number" name="max_price" id="max_price" placeholder="最高価格">
+                      <input type="number" name="min_stock" id="min_stock" placeholder="最小在庫数">
+                      <input type="number" name="max_stock" id="max_stock" placeholder="最大在庫数">
                       <button type="submit" class="btn btn-primary search-button">検索</button>
                     </form>
 
@@ -48,14 +55,12 @@
                       @php
                            $rowIndex = 0;
                       @endphp
-
+                    <div id="product-list">
                       @foreach ($products as $product)
                       <tr class="{{ $rowIndex % 2 === 0 ? 'even-row' : 'odd-row' }}">
-                
                       <td>{{ $product->id }}</td>
                       <td>
-                          <img src="{{ asset('storage/' . $product->img_pass) }}" 
-                          alt="商品画像" style="max-width: 200px;">
+                          <img src="{{ asset('storage/' . $product->img_pass) }}" alt="商品画像" class="product-image">
                       </td>
                       <td>{{ $product->product_name }}</td>
                       <td>{{ '¥' . number_format($product->price) }}</td>
@@ -74,6 +79,7 @@
                         </td>
                         </tr>
                       @endforeach
+                    </div>
                       </tbody>
                     </table>
                     <!-- ページネーション -->

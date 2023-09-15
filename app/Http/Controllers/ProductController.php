@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Product; // Product モデルを追加
 use App\Models\Company; // Company モデルを追加
 use Illuminate\Support\Facades\DB; //トランザクション使用
-//use Illuminate\Support\Facades\Storage; // 追加
 
 class ProductController extends Controller
 {
@@ -25,9 +24,20 @@ class ProductController extends Controller
     public function search(Request $request)
     {
     if ($request->ajax()) {
-        $products = Product::getFilteredProducts($request);
+        //$products = Product::getFilteredProducts($request);
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $minStock = $request->input('min_stock');
+        $maxStock = $request->input('max_stock');
+
+        $products = Product::query()
+            ->priceRange($minPrice, $maxPrice)
+            ->stockRange($minStock, $maxStock)
+            ->get();
         return response()->json(['products' => $products]);
     }
+    // 検索結果をビューに渡す
+    //return view('products.index');
     }
 
     public function destroy($id)
