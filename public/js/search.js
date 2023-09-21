@@ -1,54 +1,68 @@
-$(document).ready(function() {
-  $('#search-form').on('submit', function(e) {
-    e.preventDefault(); 
+$(document).ready(function () {
+  // メーカー検索ボタンのクリックイベント
+  $('#search-by-company-button').on('click', function () {
+    searchProductsByCompany();
+  });
+
+  // 価格在庫範囲検索ボタンのクリックイベント
+  $('#search-by-price-stock-button').on('click', function () {
+    searchProductsByPriceAndStock();
+  });
+
+  function searchProductsByCompany() {
     var formData = {
-      //product_search: $('#search-query').val(),
       product_search: $('#product_search').val(),
+      company_name: $('#company_name').val()
+    };
+    sendRequest(formData);
+  }
+
+  function searchProductsByPriceAndStock() {
+    var formData = {
       min_price: $('#min_price').val(),
       max_price: $('#max_price').val(),
       min_stock: $('#min_stock').val(),
       max_stock: $('#max_stock').val()
     };
-    console.log('Ajaxリクエストデータ:', formData);
-    searchProducts(formData);//追加
-    });
-   
-    function searchProducts(formData) {//追加
+    sendRequest(formData);
+  }
+
+  function sendRequest(formData) {
     $.ajax({
-      type: 'POST',
-      url: '/step7/public/products/search', 
+      type: 'GET',
+      url: '/step7/public/products/search',
       data: formData,
       dataType: 'json',
     })
     .done(function(response) {
-      // 検索結果を表示するための処理を実行
-      const products = response.data;
-      if (products && products.length > 0) {
-        displayProductList(products);
-      } else {
-        console.error('No products found.');
-      }
+      const products = response.products;
+      //const products = response.products.products;
+      //const products = response.products.data;
+      //const products = response.data;
+      console.log(products)
+      displayProductList(products);
     })
-    .fail(function(xhr, status, error) {
-      console.error('Ajax search Error:', status, error);
-    });
-   }
-  // 商品テーブルを生成する共通の関数
-  function displayProductList(products) {
-   const productList = document.getElementById('product-list');
-   productList.innerHTML = ''; // リストを一旦クリア
-   
-   products.forEach(function(product) {//Uncaught TypeError: Cannot read properties of undefined
-     const row = document.createElement('tr');
-     row.innerHTML = `
-       <td>${product.id}</td>
-       <td><img src="${product.image_pass}" alt="${product.name}" ></td>
-       <td>${product.name}</td>
-       <td>¥${product.price}</td>
-       <td>${product.stock}個</td>
-       <td>${product.company.company_name}</td>
-     `;
-     productList.appendChild(row);
+    .fail(function (data) {
+      console.error('Ajax Error:', data.responseText);
     });
   }
+
+  // 商品テーブルを生成する共通の関数
+  function displayProductList(products) {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; // リストを一旦クリア
+
+    products.forEach(function(product) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${product.id}</td>
+        <td><img src="${product.image_pass}" alt="${product.name}" ></td>
+        <td>${product.product_name}</td>
+        <td>¥${product.price}</td>
+        <td>${product.stock}個</td>
+        <td>${product.company_id}</td>
+      `;
+      productList.appendChild(row);
+    });
+   }
 });

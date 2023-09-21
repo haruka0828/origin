@@ -11,35 +11,26 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-    // 通常のHTTPリクエストの場合にも $products 変数を設定
-    $products = Product::getFilteredProducts($request);
-    if ($request->ajax()) {
-        return response()->json(['products' => $products]);
-    }
-    // 通常のHTTPリクエストの場合、通常通りビューを返す
-    $companies = Company::pluck('company_name', 'id');
-    return view('products.index', compact('products', 'companies'));
+        $companies = Company::pluck('company_name', 'id');
+        if ($request->ajax()) {
+            $products = $this->search($request)->getData()->products;
+            return view('products.index', compact('products', 'companies'))->render();
+        } else {
+            $products = Product::query()->paginate(10)->appends($request->all());
+            return view('products.index', compact('products', 'companies'));
+        }
     }
 
     public function search(Request $request)
     {
-    if ($request->ajax()) {
-        //$products = Product::getFilteredProducts($request);
-        $minPrice = $request->input('min_price');
-        $maxPrice = $request->input('max_price');
-        $minStock = $request->input('min_stock');
-        $maxStock = $request->input('max_stock');
-
-        $products = Product::query()
-            ->priceRange($minPrice, $maxPrice)
-            ->stockRange($minStock, $maxStock)
-            ->get();
-        return response()->json(['products' => $products]);
+        if ($request->ajax()) {
+            // searchProductsメソッドで検索結果を取得
+            $products = Product::searchProducts($request);
+            // フィルタリング結果を取得
+            return response()->json(['products' =>  $products]);
+        }
     }
-    // 検索結果をビューに渡す
-    //return view('products.index');
-    }
-
+    
     public function destroy($id)
     {
     DB::beginTransaction(); // トランザクションの開始

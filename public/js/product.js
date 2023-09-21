@@ -1,6 +1,6 @@
 $(document).ready(function() {
   // 商品一覧を初期表示
-  displayProducts();
+  //displayProducts();
 
   function displayProducts() {
     $.ajax({
@@ -9,12 +9,11 @@ $(document).ready(function() {
       dataType: 'json',
     })
     .done(function(response) {
-      // 商品一覧を表示するための処理を実行
+      console.log(response.data)
       const products = response.data;
-      displayProductList(products);
+      //displayProductList(products);
     })
     .fail(function(xhr, status, error) {
-      // エラーハンドリングを行う
       console.error('Ajax Error:', status, error);
     });
   }
@@ -23,7 +22,7 @@ $(document).ready(function() {
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // リストを一旦クリア
     
-    products.forEach(function(product) {//Uncaught TypeError: Cannot read properties of undefined
+    products.forEach(function(product) {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${product.id}</td>

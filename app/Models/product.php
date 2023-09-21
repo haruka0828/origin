@@ -34,19 +34,38 @@ class Product extends Model
     {
     return $query->whereBetween('stock', [$minStock, $maxStock]);
     }
-    //index
-    public static function getFilteredProducts($request)
-    {
+    
+    public static function searchProducts($request)
+{
     $query = self::with('company');
-
-    if ($request->has('product_search')) {// 商品名の部分一致検索
+    if ($request->has('product_search')) {
         $query->where('product_name', 'like', '%' . $request->input('product_search') . '%');
     }
-    if ($request->has('company_name')) {// メーカー選択による絞り込み
+    if ($request->has('company_name')) {
         $query->where('company_id', $request->input('company_name'));
     }
-    return $query->paginate(10);// ページネーション（1ページあたり10件）
+    if ($request->has('min_price') && $request->has('max_price')) {
+        $query->whereBetween('price', [$request->input('min_price'), $request->input('max_price')]);
     }
+    if ($request->has('min_stock') && $request->has('max_stock')) {
+        $query->whereBetween('stock', [$request->input('min_stock'), $request->input('max_stock')]);
+    }
+    //return response()->json(['products' =>  $query->get()]);
+    return response()->json(['products' =>  $query->get()->toArray()]);
+}
+    //index
+    //public static function getFilteredProducts($request)
+    //{
+    //$query = self::with('company');
+
+    //if ($request->has('product_search')) {// 商品名の部分一致検索
+        //$query->where('product_name', 'like', '%' . $request->input('product_search') . '%');
+    //}
+    //if ($request->has('company_name')) {// メーカー選択による絞り込み
+        //$query->where('company_id', $request->input('company_name'));
+    //}
+    //return $query->paginate(10);// ページネーション（1ページあたり10件）
+    //}
     //store
     public function createProduct($request)
     {

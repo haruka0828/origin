@@ -23,8 +23,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // 商品一覧ページの表示と検索機能
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+// 商品のメーカー検索と価格在庫範囲検索を非同期で実行するルート
+Route::get('/products/search', [App\Http\Controllers\ProductController::class, 'search'])->name('products.search');
 //検索機能の非同期処理
-Route::post('/products/search', [App\Http\Controllers\ProductController::class, 'search'])->name('products.search');
+//Route::post('/products/search', [App\Http\Controllers\ProductController::class, 'search'])->name('products.search');
 // 商品登録ページの表示
 Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
 // 商品登録処理
