@@ -26,14 +26,15 @@ class Product extends Model
     {
         return $this->hasMany(Sale::class);
     }
-    public function scopePriceRange($query, $minPrice, $maxPrice)//価格検索
-    {
-    return $query->whereBetween('price', [$minPrice, $maxPrice]);
-    }
-    public function scopeStockRange($query, $minStock, $maxStock)//在庫検索
-    {
-    return $query->whereBetween('stock', [$minStock, $maxStock]);
-    }
+    
+    //public function scopePriceRange($query, $minPrice, $maxPrice)//価格検索
+    //{
+    //return $query->whereBetween('price', [$minPrice, $maxPrice]);
+    //}
+    //public function scopeStockRange($query, $minStock, $maxStock)//在庫検索
+    //{
+    //return $query->whereBetween('stock', [$minStock, $maxStock]);
+    //}
     
     public static function searchProducts($request)
 {

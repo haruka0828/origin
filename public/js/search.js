@@ -39,7 +39,11 @@ $(document).ready(function () {
       //const products = response.products.products;
       //const products = response.products.data;
       //const products = response.data;
-      console.log(products)
+      //const productsArray = response.products.products;
+      console.log(formData);
+
+      //console.log(products); 
+      //displayProductList(productsArray);
       displayProductList(products);
     })
     .fail(function (data) {
@@ -48,7 +52,7 @@ $(document).ready(function () {
   }
 
   // 商品テーブルを生成する共通の関数
-  function displayProductList(products) {
+  function displayProductList(response) {
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // リストを一旦クリア
 

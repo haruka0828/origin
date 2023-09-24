@@ -6,31 +6,35 @@ use Illuminate\Http\Request;
 use App\Models\Product; // Product モデルを追加
 use App\Models\Company; // Company モデルを追加
 use Illuminate\Support\Facades\DB; //トランザクション使用
+//use Illuminate\Support\Facades\Log;//Laravel.log
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $query = Product::with('company');
+        $products = $query->paginate(10);
         $companies = Company::pluck('company_name', 'id');
+    
         if ($request->ajax()) {
-            $products = $this->search($request)->getData()->products;
-            return view('products.index', compact('products', 'companies'))->render();
-        } else {
-            $products = Product::query()->paginate(10)->appends($request->all());
-            return view('products.index', compact('products', 'companies'));
+            return response()->json(['products' => $products, 'companies' => $companies]);
         }
-    }
 
+        return view('products.index', compact('products', 'companies'));
+    }
+    
     public function search(Request $request)
     {
         if ($request->ajax()) {
+            //Log::info('Received parameters:', $request->all());//送信データログ
+
             // searchProductsメソッドで検索結果を取得
             $products = Product::searchProducts($request);
             // フィルタリング結果を取得
             return response()->json(['products' =>  $products]);
         }
     }
-    
+
     public function destroy($id)
     {
     DB::beginTransaction(); // トランザクションの開始

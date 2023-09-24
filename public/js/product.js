@@ -1,7 +1,7 @@
 $(document).ready(function() {
-  // 商品一覧を初期表示
+ 
   //displayProducts();
-
+    
   function displayProducts() {
     $.ajax({
       url: '/step7/public/products',
@@ -9,9 +9,9 @@ $(document).ready(function() {
       dataType: 'json',
     })
     .done(function(response) {
-      console.log(response.data)
+      console.log(response.products)
       const products = response.data;
-      //displayProductList(products);
+      displayProductList(products);
     })
     .fail(function(xhr, status, error) {
       console.error('Ajax Error:', status, error);
@@ -30,7 +30,7 @@ $(document).ready(function() {
         <td>${product.name}</td>
         <td>¥${product.price}</td>
         <td>${product.stock}個</td>
-        <td>${product.company.company_name}</td>
+        <td>${product.company.company_id}</td>
       `;
       productList.appendChild(row);
     });

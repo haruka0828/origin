@@ -24,7 +24,7 @@
     <!-- csrf-setup.js ファイルを読み込む -->
     <script src="{{ asset('js/csrf-setup.js') }}"></script>
     <!-- 商品一覧の非同期処理用JavaScriptファイルを読み込む -->
-    <!--<script src="{{ asset('js/product.js') }}"></script>-->
+    <script src="{{ asset('js/product.js') }}"></script>
     <!-- 検索機能の非同期処理用JavaScriptファイルを読み込む -->
     <script src="{{ asset('js/search.js') }}"></script>
 </head>
