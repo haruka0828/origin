@@ -35,7 +35,7 @@
                       <button type="button" class="btn btn-primary search-button" id="search-by-price-stock-button">検索</button>
                     </form>
 
-                    <table class="table table-borderless table-striped">
+                  <table class="table table-borderless table-striped">
                      <thead>
                       <tr>
                       <th>ID</th>
@@ -48,12 +48,11 @@
                       <th><a href="{{ route('products.create') }}" class="btn btn-warning">新規登録</a></th> 
                       </tr>
                      </thead>
-                     <tbody>
+                    <tbody id="product-list">
 
                       @php
                            $rowIndex = 0;
                       @endphp
-                    <div id="product-list">
                       @foreach ($products as $product)
                       <tr class="{{ $rowIndex % 2 === 0 ? 'even-row' : 'odd-row' }}">
                       <td>{{ $product->id }}</td>
@@ -77,9 +76,8 @@
                         </td>
                         </tr>
                       @endforeach
-                    </div>
-                      </tbody>
-                    </table>
+                    </tbody>
+                  </table>
                     <!-- ページネーション -->
                     <div class="pagination justify-content-center">
                         {{ $products->links() }}

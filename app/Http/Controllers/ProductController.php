@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Product; // Product モデルを追加
 use App\Models\Company; // Company モデルを追加
 use Illuminate\Support\Facades\DB; //トランザクション使用
-//use Illuminate\Support\Facades\Log;//Laravel.log
 
 class ProductController extends Controller
 {
@@ -26,12 +25,9 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            //Log::info('Received parameters:', $request->all());//送信データログ
-
-            // searchProductsメソッドで検索結果を取得
             $products = Product::searchProducts($request);
-            // フィルタリング結果を取得
-            return response()->json(['products' =>  $products]);
+            return response()->json($products);//指導
+            //return response()->json(['products' =>  $products]);
         }
     }
 

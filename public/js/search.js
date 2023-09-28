@@ -12,7 +12,8 @@ $(document).ready(function () {
   function searchProductsByCompany() {
     var formData = {
       product_search: $('#product_search').val(),
-      company_name: $('#company_name').val()
+      //company_name: $('#company_name').val()//→company_nameがNULLになる
+      company_name: $('.company-select').val() // 修正
     };
     sendRequest(formData);
   }
@@ -36,15 +37,8 @@ $(document).ready(function () {
     })
     .done(function(response) {
       const products = response.products;
-      //const products = response.products.products;
-      //const products = response.products.data;
-      //const products = response.data;
-      //const productsArray = response.products.products;
-      console.log(formData);
-
-      //console.log(products); 
-      //displayProductList(productsArray);
-      displayProductList(products);
+      console.log(response);
+      displayProductList(response);//指導
     })
     .fail(function (data) {
       console.error('Ajax Error:', data.responseText);
@@ -53,20 +47,25 @@ $(document).ready(function () {
 
   // 商品テーブルを生成する共通の関数
   function displayProductList(response) {
+    //$('.product-list tbody').empty();
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // リストを一旦クリア
 
-    products.forEach(function(product) {
+    var baseUrl = 'http://localhost/step7/public/storage/';
+
+    response.forEach(function(product) {//指導
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${product.id}</td>
-        <td><img src="${product.image_pass}" alt="${product.name}" ></td>
+        <td><img src="${baseUrl + product.img_pass}" class="product-image"></td>
         <td>${product.product_name}</td>
         <td>¥${product.price}</td>
         <td>${product.stock}個</td>
-        <td>${product.company_id}</td>
+        <td>${product.company.company_name}</td>
       `;
       productList.appendChild(row);
+      //table.appendChild(row); // 行をテーブルに追加
+      //$('.product-list tbody').append(row); // 行をテーブルに追加
     });
-   }
+  }
 });
