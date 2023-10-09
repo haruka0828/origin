@@ -12,8 +12,7 @@ $(document).ready(function () {
   function searchProductsByCompany() {
     var formData = {
       product_search: $('#product_search').val(),
-      //company_name: $('#company_name').val()//→company_nameがNULLになる
-      company_name: $('.company-select').val() // 修正
+      company_name: $('.company-select').val()
     };
     sendRequest(formData);
   }
@@ -37,7 +36,7 @@ $(document).ready(function () {
     })
     .done(function(response) {
       const products = response.products;
-      console.log(response);
+      //console.log(response);
       displayProductList(response);//指導
     })
     .fail(function (data) {
@@ -47,7 +46,6 @@ $(document).ready(function () {
 
   // 商品テーブルを生成する共通の関数
   function displayProductList(response) {
-    //$('.product-list tbody').empty();
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // リストを一旦クリア
 
@@ -62,10 +60,16 @@ $(document).ready(function () {
         <td>¥${product.price}</td>
         <td>${product.stock}個</td>
         <td>${product.company.company_name}</td>
+        <td><a href="/step7/public/products/${product.id}" class="btn btn-info">詳細</a></td>
+      <td>
+      <!-- 削除ボタン -->
+      <form id="delete-form-${product.id}" action="/step7/public/products/${product.id}" method="POST">
+       <input type="hidden" name="_method" value="DELETE">
+       <button type="button" class="btn btn-danger" onclick="confirmDelete(${product.id})">削除</button>
+      </form>
+      </td>
       `;
       productList.appendChild(row);
-      //table.appendChild(row); // 行をテーブルに追加
-      //$('.product-list tbody').append(row); // 行をテーブルに追加
     });
   }
 });

@@ -1,6 +1,6 @@
 .product-image {
-    max-width: 200px; /* 最大幅 */
-    max-height: 150px; /* 最大高さ */
+    max-width: 150px; /* 最大幅 */
+    max-height: 70px; /* 最大高さ */
 }
 .even-row {
     background-color: #D4D7DC; /* 灰色の背景色 */
@@ -26,6 +26,11 @@
 .equal-width-form.company-select {
     width: 320px; /* 幅を短く調整 */
     margin-right: 40px; /* 適切な余白を指定 */
+}
+
+.equal-width-form.sort-select{
+    width: 200px;/* 幅を短く調整 */
+    margin-right: 300px; /* 適切な余白を指定 */
 }
 
 /* 検索ボタンのスタイル */

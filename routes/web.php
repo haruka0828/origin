@@ -30,9 +30,10 @@ Route::get('/products/create', [App\Http\Controllers\ProductController::class, '
 // 商品登録処理
 Route::post('/products', [App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
 // 商品詳細
-Route::get('/show/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 // 商品削除
-Route::delete('/products/{product}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+Route::delete('/products/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+//Route::delete('/products/{id}/delete', [App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
 // 商品編集
 Route::get('/products/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
 // 更新処理

@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
+
 
 class Product extends Model
 {
@@ -26,7 +28,7 @@ class Product extends Model
     {
         return $this->hasMany(Sale::class);
     }
-
+    //価格在庫範囲検索
     public static function searchProducts($request)
     {
         $query = self::with('company');
@@ -48,8 +50,28 @@ class Product extends Model
         if ($request->filled('max_stock')) {
             $query->where('stock', '<=', $request->input('max_stock'));
         }
-    $products = $query->get(); return $products;
+        $products = $query->get(); return $products;
     }
+    //カラム別ソート機能
+    public function scopeWithSearch($query, $productSearch)
+    {
+        return $query->when($productSearch, function ($query, $productSearch) {
+            return $query->where('product_name', 'like', '%' . $productSearch . '%');
+        });
+    }
+    public function scopeWithCompany($query, $companyName)
+    {
+        return $query->when($companyName, function ($query, $companyName) {
+            return $query->whereHas('company', function ($query) use ($companyName) {
+                return $query->where('id', '=', $companyName);
+            });
+        });
+    }
+    public function scopeSortable($query, $sortColumn, $sortOrder)
+    {
+        return $query->orderBy($sortColumn, $sortOrder);
+    }
+
     //store
     public function createProduct($request)
     {

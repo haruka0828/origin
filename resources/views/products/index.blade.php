@@ -26,13 +26,23 @@
                       <!-- 検索ボタン -->
                       <button type="button" class="btn btn-primary search-button" id="search-by-company-button">検索</button>
                     </form>
-
+                    <!-- ソート機能 -->
                     <form action="{{ route('products.search') }}" method="get" class="search-form" id="price-stock-search-form">
                       <input type="number" name="min_price" id="min_price" placeholder="最低価格">
                       <input type="number" name="max_price" id="max_price" placeholder="最高価格">
                       <input type="number" name="min_stock" id="min_stock" placeholder="最小在庫数">
                       <input type="number" name="max_stock" id="max_stock" placeholder="最大在庫数">
                       <button type="button" class="btn btn-primary search-button" id="search-by-price-stock-button">検索</button>
+                    </form>
+                    <form action="{{ route('products.index') }}" method="get" class="sort-form d-flex justify-content-between" id="sort-form">
+                     <select name="sort_column" class="form-control equal-width-form sort-select">
+                       <option value="id">ID</option>
+                       <option value="product_name">商品名</option>
+                       <option value="price">価格</option>
+                       <option value="stock">在庫</option>
+                       <option value="company_name">メーカー名</option>
+                     </select>
+                       <button type="submit" id="sort-button" class="form-control equal-width-form sort-select">↑  ↓</button>
                     </form>
 
                   <table class="table table-borderless table-striped">
@@ -63,11 +73,11 @@
                       <td>{{ '¥' . number_format($product->price) }}</td>
                       <td>{{ $product->stock }}</td>
                       <td>{{ $product->company->company_name }}</td>
-                      <td><a href="{{ route('products.show', $product->id) }}" class="btn btn-info">詳細</a></td>
+                      <td><a href="{{ route('products.show', $product['id']) }}" class="btn btn-info">詳細</a></td>
                       <td>
                       <!-- 削除ボタン -->
-                        <form id="delete-form-{{ $product->id }}" 
-                        action="{{ route('products.destroy', $product->id) }}" method="post">
+                        <form id="delete-form-{{ $product['id'] }}" 
+                        action="{{ route('products.destroy', $product['id']) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger" 
@@ -79,9 +89,7 @@
                     </tbody>
                   </table>
                     <!-- ページネーション -->
-                    <div class="pagination justify-content-center">
-                        {{ $products->links() }}
-                    </div>
+                    <div class="pagination justify-content-center" id="pagination"></div>
         </div>
     </div>
 </div>
