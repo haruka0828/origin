@@ -10,39 +10,17 @@ use Illuminate\Support\Facades\DB; //トランザクション使用
 class ProductController extends Controller
 {
     public function index(Request $request)
-    {   
-        $sortColumn = $request->input('sort_column', 'id');
-        $sortOrder = $request->input('sort_order', 'asc');
-        $productSearch = $request->input('product_search', '');
-        $companyName = $request->input('company_name', '');
+    {
         $companies = Company::pluck('company_name', 'id');
-        $minPrice = $request->input('min_price', '');
-        $maxPrice = $request->input('max_price', '');
-        $minStock = $request->input('min_stock', '');
-        $maxStock = $request->input('max_stock', '');
-        $products = Product::with('company')
-            ->withSearch($request->query('product_search'))
-            ->withCompany($request->query('company_name'));
-        if ($minPrice != '') {
-            $products = $products->where('price', '>=', $minPrice);
-        }
-        if ($maxPrice != '') {
-            $products = $products->where('price', '<=', $maxPrice);
-        }
-        if ($minStock != '') {
-            $products = $products->where('stock', '>=', $minStock);
-        }
-        if ($maxStock != '') {
-            $products = $products->where('stock', '<=', $maxStock);
-        }
-        $products = $products->sortable($request->query('sort_column', 'id'), 
-                                         $request->query('sort_order', 'asc'))
-                              ->get();
+        $products = Product::withFilters($request)
+            ->sortable($request->query('sort_column', 'id'), 
+                        $request->query('sort_order', 'asc'))
+            ->get();
         if ($request->ajax()) {
             return response()->json(['products' => $products, 'companies' => $companies]);
         }
         return view('products.index', compact('products', 'companies'));
-    }    
+    }
     //検索
     public function search(Request $request)
     {

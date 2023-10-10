@@ -20,7 +20,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <!--<script src="{{ asset('js/app.js') }}"></script>-->
     <!-- csrf-setup.js ファイルを読み込む -->
     <script src="{{ asset('js/csrf-setup.js') }}"></script>
     <!-- 商品一覧の非同期処理用JavaScriptファイルを読み込む -->

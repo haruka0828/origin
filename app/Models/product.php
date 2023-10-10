@@ -28,6 +28,24 @@ class Product extends Model
     {
         return $this->hasMany(Sale::class);
     }
+    public function scopeWithFilters($query, $request)
+    {
+        return $query->with('company')
+            ->withSearch($request->query('product_search'))
+            ->withCompany($request->query('company_name'))
+            ->when($request->query('min_price'), function ($query, $minPrice) {
+                return $query->where('price', '>=', $minPrice);
+            })
+            ->when($request->query('max_price'), function ($query, $maxPrice) {
+                return $query->where('price', '<=', $maxPrice);
+            })
+            ->when($request->query('min_stock'), function ($query, $minStock) {
+                return $query->where('stock', '>=', $minStock);
+            })
+            ->when($request->query('max_stock'), function ($query, $maxStock) {
+                return $query->where('stock', '<=', $maxStock);
+            });
+    }
     //価格在庫範囲検索
     public static function searchProducts($request)
     {
