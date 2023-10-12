@@ -48,19 +48,16 @@ $(function() {
     });
   }
     // 検索ボタンがクリックされたときの処理
-    $('#search-by-company-button').on('click', function() {
+    $('#search-button').on('click', function() {
       params.product_search = $('#product_search').val();
       params.company_name = $('select[name="company_name"]').val();
+      params.min_price = $('#min_price').val();
+      params.max_price = $('#max_price').val();
+      params.min_stock = $('#min_stock').val();
+      params.max_stock = $('#max_stock').val();
+      updateProductList();
       //console.log(params); //出力
     });
-    //価格在庫範囲検索ボタンがクリックされたときの処理
-    $('#search-by-price-stock-button').on('click', function() {
-        params.min_price = $('#min_price').val();
-        params.max_price = $('#max_price').val();
-        params.min_stock = $('#min_stock').val();
-        params.max_stock = $('#max_stock').val();
-        //console.log(params); //出力
-      });
     // ソートボタンがクリックされたときの処理
     $('#sort-button').on('click', function(event) {
         event.preventDefault(); //フォームの送信を防ぐ

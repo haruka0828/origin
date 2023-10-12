@@ -1,31 +1,21 @@
 $(document).ready(function () {
-  // メーカー検索ボタンのクリックイベント
-  $('#search-by-company-button').on('click', function () {
-    searchProductsByCompany();
-  });
+ // 検索ボタンのクリックイベント
+ $('#search-button').on('click', function () {
+  searchProducts();
+});
 
-  // 価格在庫範囲検索ボタンのクリックイベント
-  $('#search-by-price-stock-button').on('click', function () {
-    searchProductsByPriceAndStock();
-  });
-
-  function searchProductsByCompany() {
-    var formData = {
-      product_search: $('#product_search').val(),
-      company_name: $('.company-select').val()
-    };
-    sendRequest(formData);
-  }
-
-  function searchProductsByPriceAndStock() {
-    var formData = {
-      min_price: $('#min_price').val(),
-      max_price: $('#max_price').val(),
-      min_stock: $('#min_stock').val(),
-      max_stock: $('#max_stock').val()
-    };
-    sendRequest(formData);
-  }
+function searchProducts() {
+  var companySelectVal = $('.company-select').val();
+  var formData = {
+    product_search: $('#product_search').val(),
+    company_name: companySelectVal === '未選択' ? 'all' : companySelectVal,
+    min_price: $('#min_price').val(),
+    max_price: $('#max_price').val(),
+    min_stock: $('#min_stock').val(),
+    max_stock: $('#max_stock').val()
+  };
+  sendRequest(formData);
+}
 
   function sendRequest(formData) {
     $.ajax({

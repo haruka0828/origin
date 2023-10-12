@@ -15,16 +15,15 @@
                     @endif
                     <form action="{{ route('products.search') }}" method="get" class="search-form" id="product-search-form">
                       <!-- 商品名部分一致検索フォーム -->
-                      <input type="text" class="form-control equal-width-form product-search" name="product_search" id="product_search" placeholder="検索キーワード">
 
+                      <input type="text" class="form-control equal-width-form product-search" name="product_search" id="product_search" placeholder="検索キーワード">
                       <!-- メーカー選択 -->
                       <select name="company_name" class="form-control equal-width-form company-select">
-                        @foreach ($companies as $id => $companyName)
+                        <option value="">未選択</option>
+                      @foreach ($companies as $id => $companyName)
                         <option value="{{ $id }}">{{ $companyName }}</option>
-                        @endforeach
+                      @endforeach
                       </select>
-                      <!-- 検索ボタン -->
-                      <button type="button" class="btn btn-primary search-button" id="search-by-company-button">検索</button>
                     </form>
                     <!-- ソート機能 -->
                     <form action="{{ route('products.search') }}" method="get" class="search-form" id="price-stock-search-form">
@@ -32,7 +31,7 @@
                       <input type="number" name="max_price" id="max_price" placeholder="最高価格">
                       <input type="number" name="min_stock" id="min_stock" placeholder="最小在庫数">
                       <input type="number" name="max_stock" id="max_stock" placeholder="最大在庫数">
-                      <button type="button" class="btn btn-primary search-button" id="search-by-price-stock-button">検索</button>
+                      <button type="button" class="btn btn-primary search-button" id="search-button">検索</button>
                     </form>
                     <form action="{{ route('products.index') }}" method="get" class="sort-form d-flex justify-content-between" id="sort-form">
                      <select name="sort_column" class="form-control equal-width-form sort-select">

@@ -54,7 +54,10 @@ class Product extends Model
             $query->where('product_name', 'like', '%' . $request->input('product_search') . '%');
         }
         if ($request->has('company_name')) {
-            $query->where('company_id', $request->input('company_name'));
+            $companyName = $request->input('company_name');
+            if ($companyName !== 'all') {
+                $query->where('company_id', $companyName);
+            }
         }
         if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->input('min_price'));
