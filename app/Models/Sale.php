@@ -16,10 +16,7 @@ class Sale extends Model
     }
 
     public function makeSale($product_id, $quantity)
-  {
-    DB::beginTransaction();
-
-    try {
+    {
         // 在庫数をチェック
         $product = DB::table('products')->where('id', $product_id)->first();
         if ($product->stock <= 0) {
@@ -37,14 +34,6 @@ class Sale extends Model
         DB::table('products')
             ->where('id', $product_id)
             ->decrement('stock', $quantity);
-
-        DB::commit();
-
         return ['status' => 'success'];
-    } catch (\Exception $e) {
-        // エラーが発生した場合はロールバック
-        DB::rollback();
-        return ['status' => 'error', 'code' => 'db_error'];
     }
-  }
 }
